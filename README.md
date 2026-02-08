@@ -4,7 +4,7 @@
 > **Community Fork** - This is a fork of the original [jonathansick /
 preprint](https://github.com/jonathansick/preprint) package, which appears to have been discontinued in 2015. Thank you jonathansick for the original work!
 
-##Tools for preparing scientific manuscripts in LaTeX.
+## Tools for preparing scientific manuscripts in LaTeX.
 
 Preprint lets you automatically compile, typeset document differences, and package the manuscript for publication.
 
@@ -32,17 +32,17 @@ After installing, try ``preprint --help`` for more info.
 
 Preprint currently supports the following commands (see below for a reference):
 
-- ``preprint make`` to do a one-off compilation of the paper,
-- ``preprint watch`` to automatically compile the paper if source is changed,
-- ``preprint diff`` to run ``latexdiff`` against a commit in Git,
-- ``preprint pack`` to package the document for journals or the arXiv.
-- ``preprint init`` to setup your project with ``preprint.json`` configurations.
+- `preprint make` to do a one-off compilation of the paper,
+- `preprint watch` to automatically compile the paper if the source is changed,
+- `preprint dif`` to run `latexdiff` against a commit in Git,
+- `preprint pack` to package the document for journals or the arXiv.
+- `preprint init` to setup your project with `preprint.json` configurations.
 
 Check the `GitHub Issues <https://github.com/jonathansick/preprint/issues>` to submit additional ideas.
 
-===================
-A taste of preprint
-===================
+
+## A taste of preprint
+
 
 Preprint is pretty easy to use.
 Here are a few commands to give a flavour of what it can do:
@@ -53,13 +53,12 @@ Here are a few commands to give a flavour of what it can do:
     preprint pack my_paper --style arxiv  # pack it up for arXiv submission
 
 
-====================================
-Configuration System / preprint.json
-====================================
+## Configuration System / preprint.json
+
 
 ``preprint`` configurations are determined from (in order of increasing precedence): internal defaults, a project-specific JSON file, and command line arguments.
 
-To create a ``preprint.json`` configuration file for your project, from your paper's directory simply run:
+To create a ``preprint.json`` configuration file for your project, from your paper's directory, simply run:
 
     preprint init
 
@@ -80,20 +79,20 @@ Here is an example of its format:
 }
 ```
 
-If set in ``preprint.json``, any command line setting of the same name does not need to be repeated.
+If set in ``preprint.json``, any command-line setting of the same name does not need to be repeated.
 
-List of Configurations
-----------------------
+## List of Configurations
+
 
 master
-  (type: string) Name of latex document to be compiled (or the root latex document containing `\documentclass`).
+  (type: string) Name of the LaTeX document to be compiled (or the root LaTeX document containing `\documentclass`).
   Defaults to ``'article.tex'``, but ``preprint init`` will set this for you.
 
 exts
   (type: list of strings) List of file extensions used by the ``watch`` command.
-  If any file with this extension in changed in the project, a compile will be triggered by ``preprint watch``.
+  If any file with this extension is changed in the project, ``preprint watch``will trigger a compile.
   This setting is also used by ``preprint pack`` to figure out your preferences for figure file types.
-  For example, ``["tex", "pdf", "eps"]`` will try to include ``pdf`` figures before falling back to ``eps`` files, while ``["tex", "eps", "pdf"]`` will have the opposite behavior.
+  For example, ``["tex", "pdf", "eps"]`` will try to include ``pdf`` figures before falling back to ``eps`` files, while ``["tex", "eps", "pdf"]`` will have the opposite behaviour.
   Defaults to ``["tex", "pdf", "eps"]``.
 
 cmd
@@ -102,12 +101,12 @@ cmd
   The command string can include ``{master}`` to interpolate the path of the master tex file.
   Defaults to ``"latexmk -f -pdf -bibtex-cond {master}"``.
 
-=================
-Command Reference
-=================
 
-init
-----
+## Command Reference
+
+
+### init
+
 
 ``preprint init`` will create a default ``preprint.json`` configuration file for your project.
 
@@ -118,8 +117,8 @@ Usage::
 After running, take a look at ``preprint.json`` to edit the configurations.
 See *'Configuration System / preprint.json'* (above) for more information.
 
-make
-----
+### make
+
 
 ``preprint make`` will perform a one-off compilation of your paper.
 
@@ -137,8 +136,8 @@ If ``preprint.json`` is setup, you can just run::
     preprint make
 
 
-watch
------
+### watch
+
 
 ``preprint watch`` will automatically compile your paper if a TeX or graphics source file is changed.
 
@@ -168,8 +167,8 @@ Finally, to continuously run a latexdiff-based compile against an arbitrary comm
     preprint watch --diff b91688d
 
 
-diff
-----
+### diff
+
 
 ``preprint diff`` will typeset the document with revisions highlighted between the currently checked-out version, and a previous git commit.
 This command is powered by the `latexdiff <http://latexdiff.berlios.de>`_ (which is probably installed with your tex distribution).
@@ -189,8 +188,8 @@ Usage::
     -n         Output name of the difference document (eg. diff.tex)
 
 
-pack
-----
+### pack
+
 
 ``preprint pack`` prepares a preprint for submission to a journal.
 This pipeline includes:
@@ -229,14 +228,21 @@ And to build for the arxiv, where PDF figures are preferred, run::
 
     preprint pack my_arxiv_build --style arxiv --exts pdf
 
-=====
-About
-=====
 
-`Preprint is developed on GitHub <https://github.com/jonathansick/preprint>`_.
-Contributions and suggestions are welcome;
-read `the CONTRIBUTING guidelines <https://github.com/jonathansick/preprint/blob/master/CONTRIBUTING.md>`_ for instructions on how to help.
+### About
+
+
+#### Original author:
+
+Preprint was originally developed on GitHub <https://github.com/jonathansick/preprint>
+
+Contributions and suggestions are welcome.
+Read the CONTRIBUTING guidelines <https://github.com/jonathansick/preprint/blob/master/CONTRIBUTING.md> for instructions on how to help.
 
 Copyright 2014 Jonathan Sick, @jonathansick
+
+#### Current Fork
+
+This is a community fork to ensure the original package continues to work with Python 3. Any contributions are absolutely welcome. We will try to update the documentation in due course.
 
 Licensed BSD.
