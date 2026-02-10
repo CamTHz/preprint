@@ -22,7 +22,15 @@ class Make(Command):
         return parser
 
     def take_action(self, parsed_args):
+        # Explicitly set this command's logger to DEBUG if global debug is on
+        if self.app.options.debug:
+            self.log.setLevel(logging.DEBUG)
+
+        self.log.debug("make: take_action started.")
+        self.log.debug("make: Running version control checks.")
         run_vc()
+        self.log.debug("make: Version control checks completed.")
         cmd = parsed_args.cmd.format(master=self.app.options.master)
-        self.log.debug("Compiling with {0}".format(cmd))
+        self.log.debug("make: Executing command: %s", cmd)
         subprocess.call(cmd, shell=True)
+        self.log.debug("make: Command execution completed.")

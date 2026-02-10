@@ -1,42 +1,12 @@
-#!/usr/bin/env python
-# encoding: utf-8
-"""
-Manager for configuration defaults.
-"""
-
 import os
 import json
+import logging
 
 
 class Configurations(object):
-    """Configurations determines and provides default settings that can
-    be overriden by the user on the command line.
+    """Manager for configuration defaults."""
 
-    Configurations are set at two levels:
-
-    1. There are built-in defaults that ensure all configurations are
-        always set.
-    2. These can be overriden by settings in a json file (an example is below).
-
-    Each command uses these configurations to set the default state of
-    each command line option. Thus each command ultimatly gets the
-    final configuration state from the argparser.
-
-    An example json file, named "preprint.json":
-    
-    ::
-        {
-            "master": "skysub.tex",
-            "exts": ["tex", "eps", "pdf"],
-            "cmd": "latexmk -f -pdf -bibtex-cond {master}"
-        }
-
-
-    *Notes on the ``cmd`` option:* this open accepts a ``master`` template
-    variable that will be replaced with the value of the ``master``
-    configuration variable. This can be used to tell the appropriate latex
-    build command what the master tex file is (see example above).
-    """
+    log = logging.getLogger(__name__)
 
     _DEFAULTS = {
         "master": "paper.tex",
@@ -48,8 +18,11 @@ class Configurations(object):
         self._confs = dict(self._DEFAULTS)
         # Read configurations
         if os.path.exists("preprint.json"):
+            self.log.debug("Found preprint.json, loading configurations.")
             with open("preprint.json", 'r') as f:
                 self._confs.update(json.load(f))
+        else:
+            self.log.debug("No preprint.json found, using default configurations.")
         self._sanitize_path('master')
 
     def default(self, name):
@@ -78,9 +51,9 @@ class Configurations(object):
 
 if __name__ == '__main__':
     conf = Configurations()
-    print(conf.default("master"))
-    print(conf.default("exts"))
-    print(conf.default("cmd"))
-    print(conf.config("exts"))
-    print(type(conf.config("exts")))
-    print(conf.config("cmd"))
+    Configurations.log.debug("Default master: %s", conf.default("master"))
+    Configurations.log.debug("Default exts: %s", conf.default("exts"))
+    Configurations.log.debug("Default cmd: %s", conf.default("cmd"))
+    Configurations.log.debug("Configured exts: %s", conf.config("exts"))
+    Configurations.log.debug("Type of configured exts: %s", type(conf.config("exts")))
+    Configurations.log.debug("Configured cmd: %s", conf.config("cmd"))
