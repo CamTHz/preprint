@@ -6,6 +6,9 @@
 > [!NOTE]
 > **Community Fork** - This is a fork of the original [jonathansick/preprint](https://github.com/jonathansick/preprint) package, which appears to have been discontinued in 2015. Thank you jonathansick for the original work!
 
+> [!NOTE]
+> **New Debug Flag:** A global `--debug` flag has been implemented across all commands (`init`, `make`, `pack`) to provide verbose logging for troubleshooting and development.
+
 ## Tools for preparing scientific manuscripts in LaTeX.
 
 Preprint lets you automatically compile, typeset document differences, and package the manuscript for publication.
@@ -85,7 +88,7 @@ To create a ``preprint.json`` configuration file for your project, from your pap
 preprint init
 ```
 
-It will automatically find the root LaTeX file for your paper.
+It will automatically find the root LaTeX file for your paper. Without any optional arguments, it defaults to `article.tex`.
 You can open ``preprint.json`` to review its format and further modify the configurations.
 Here is an example of its format:
 
@@ -133,16 +136,25 @@ cmd
 
 ### init
 
-
 ``preprint init`` will create a default ``preprint.json`` configuration file for your project.
+
+
+It now uses a more robust method to automatically find the root LaTeX file for your paper by searching for `\documentclass`.
 
 Usage:
 
 ```bash
-preprint init
+preprint init [--debug] [--master MASTER]
 ```
 
+Optional arguments:
+
+*   `--master`   Specify the master .tex file, overriding auto-detection.
+
+
 After running, open ``preprint.json`` to edit the configuration.
+
+
 See *'Configuration System / preprint.json'* (above) for more information.
 
 ### make
@@ -153,10 +165,11 @@ See *'Configuration System / preprint.json'* (above) for more information.
 Usage:
 
 ```bash
-preprint [--master MASTER] make [--cmd CMD]
+preprint make [--debug] [--master MASTER] [--cmd CMD]
 ```
 
 Optional arguments:
+
 *   `--master`   Name of the root LaTeX file (e.g., `paper.tex`)
 *   `--cmd`      Name of command to run for compilation
 
@@ -178,7 +191,7 @@ preprint make
 Usage:
 
 ```bash
-preprint [--master MASTER] watch [--exts EXT1, ..., EXTN; --cmd CMD; --diff [SHA]]
+preprint watch [--debug] [--master MASTER] [--exts EXT1, ..., EXTN; --cmd CMD; --diff [SHA]]
 ```
 
 Optional arguments:
@@ -222,7 +235,7 @@ preprint watch --diff b91688d
 Usage:
 
 ```bash
-preprint [--master MASTER] diff PREV_SHA [-n NAME]
+preprint diff [--debug] [--master MASTER] PREV_SHA [-n NAME]
 ```
 
 Arguments:
@@ -255,7 +268,7 @@ The implementation should thus be easier.
 Usage:
 
 ```bash
-preprint [--master MASTER] pack NAME [--style STYLE; --exts EXT1, ..., EXTN]
+preprint pack [--debug] [--master MASTER] NAME [--style STYLE; --exts EXT1, ..., EXTN]
 ```
 
 Arguments:
